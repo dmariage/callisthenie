@@ -67,6 +67,8 @@ callisthenie/
 │   ├── router/
 │   ├── App.vue
 │   └── main.ts
+│   └── assets/
+│       └── illustrations/      # SVG ligne/silhouette, un par exercice unique
 ├── public/
 │   └── icons/                  # Icônes PWA (192x192, 512x512)
 ├── vite.config.ts               # vite-plugin-pwa + base path GitHub Pages
@@ -106,6 +108,7 @@ interface Exercise {
   durationSec?: number // ex: 30s de gainage
   restSec: number
   wristFriendly: boolean // variante appui poing/avant-bras si true
+  illustrationId: string // référence vers src/assets/illustrations/<id>.svg
   notes?: string
 }
 
@@ -123,6 +126,18 @@ interface DayProgram {
 Le contenu exercice par exercice détaillé (les 28 jours complets) sera écrit
 lors de l'implémentation en suivant ces règles de progression et
 d'adaptation au poignet.
+
+**Illustrations des exercices :**
+- Les exercices sont réutilisés à travers les 28 jours (variations de séries/
+  reps/durée pour un même mouvement) — le nombre d'exercices **uniques** est
+  estimé à ~15-20 sur l'ensemble du programme, pas 28×6
+- Chaque exercice unique dispose d'une **illustration SVG schématique** (style
+  silhouette/ligne, pas photoréaliste), stockée en fichier statique dans
+  `src/assets/illustrations/` et référencée via `illustrationId`
+- Pas de photo ni de vidéo (hors scope, cf. section "Hors scope") : uniquement
+  des illustrations vectorielles simples créées pour ce projet, légères et
+  fonctionnant offline sans dépendance externe
+- Affichées dans `ExerciseList.vue` / `DayCard.vue` à côté du nom de l'exercice
 
 ## État et persistance
 
@@ -194,3 +209,5 @@ interface ProgressState {
 - Multi-appareils / synchronisation cloud / comptes utilisateurs
 - Édition du programme via une UI (le programme est statique, codé en dur)
 - Tests end-to-end
+- Photos/vidéos réelles de démonstration des exercices (uniquement des
+  illustrations SVG schématiques créées pour ce projet)

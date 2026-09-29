@@ -41,4 +41,24 @@ describe('DayCard', () => {
     await wrapper.find('input[type="checkbox"]').setValue(true)
     expect(wrapper.classes()).toContain('day-card--completed')
   })
+
+  it('shows a countdown timer for exercises with a duration', () => {
+    const wrapper = mount(DayCard, { props: { exercise, day: 1 } })
+    expect(wrapper.find('.timer').exists()).toBe(true)
+    expect(wrapper.text()).toContain('00:30')
+  })
+
+  it('does not show a countdown timer for exercises without a duration', () => {
+    const repsExercise: Exercise = {
+      id: 'chair-assisted-squat',
+      name: 'Squat assisté à la chaise',
+      sets: 2,
+      reps: 12,
+      restSec: 30,
+      wristFriendly: true,
+      illustrationId: 'chair-assisted-squat',
+    }
+    const wrapper = mount(DayCard, { props: { exercise: repsExercise, day: 1 } })
+    expect(wrapper.find('.timer').exists()).toBe(false)
+  })
 })

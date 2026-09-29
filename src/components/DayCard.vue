@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import type { Exercise } from '@/data/program'
 import { useProgressStore } from '@/stores/progress'
 import StickFigure from './StickFigure.vue'
+import Timer from './Timer.vue'
 
 const props = defineProps<{
   exercise: Exercise
@@ -40,6 +41,7 @@ function onToggle(): void {
       <p class="day-card__name">{{ exercise.name }}</p>
       <p class="day-card__detail">{{ detailLabel }}</p>
       <p v-if="exercise.notes" class="day-card__notes">{{ exercise.notes }}</p>
+      <Timer v-if="exercise.durationSec !== undefined" :duration-sec="exercise.durationSec" />
     </div>
   </li>
 </template>

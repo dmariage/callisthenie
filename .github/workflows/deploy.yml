@@ -24,10 +24,10 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-      - name: Install dependencies (diagnostic verbose run)
+      - name: Install dependencies (diagnostic - ignore-scripts)
         run: |
           rm -rf node_modules
-          timeout -k 10 120 npm ci --loglevel verbose
+          timeout -k 10 120 npm ci --ignore-scripts --loglevel verbose
           echo "exit code: $?"
       - name: Run tests
         run: npm test

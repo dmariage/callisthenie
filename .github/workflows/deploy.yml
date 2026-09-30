@@ -26,12 +26,20 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: |
+          success=0
           for i in 1 2 3; do
             rm -rf node_modules
-            timeout 300 npm ci && break
+            if timeout -k 10 300 npm ci; then
+              success=1
+              break
+            fi
             echo "npm ci attempt $i failed or timed out, retrying..."
             sleep 5
           done
+          if [ "$success" -ne 1 ]; then
+            echo "npm ci failed after 3 attempts"
+            exit 1
+          fi
       - name: Run tests
         run: npm test
       - name: Build

@@ -24,22 +24,11 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-      - name: Install dependencies
+      - name: Install dependencies (diagnostic verbose run)
         run: |
-          success=0
-          for i in 1 2 3; do
-            rm -rf node_modules
-            if timeout -k 10 300 npm ci; then
-              success=1
-              break
-            fi
-            echo "npm ci attempt $i failed or timed out, retrying..."
-            sleep 5
-          done
-          if [ "$success" -ne 1 ]; then
-            echo "npm ci failed after 3 attempts"
-            exit 1
-          fi
+          rm -rf node_modules
+          timeout -k 10 120 npm ci --loglevel verbose
+          echo "exit code: $?"
       - name: Run tests
         run: npm test
       - name: Build
